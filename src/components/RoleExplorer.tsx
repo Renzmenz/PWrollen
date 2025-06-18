@@ -4,6 +4,8 @@ import { useState } from 'react'
 import RoleCard from './RoleCard'
 import SituationExplorer from './SituationExplorer'
 import ProgressTracker from './ProgressTracker'
+import FlowchartView from './FlowchartView'
+import FlashcardView from './FlashcardView'
 
 export interface Role {
   id: string
@@ -13,6 +15,8 @@ export interface Role {
   description: string
   fullDescription: string
   situations: Situation[]
+  flowchartSteps: FlowchartStep[]
+  concepts: Concept[]
 }
 
 export interface Situation {
@@ -41,6 +45,22 @@ export interface CompletedExample {
   completedAt: Date
 }
 
+export interface FlowchartStep {
+  id: string
+  title: string
+  description: string
+  completed: boolean
+  requirements: string[]
+}
+
+export interface Concept {
+  id: string
+  term: string
+  definition: string
+  example: string
+  category: string
+}
+
 const roles: Role[] = [
   {
     id: 'aanpakker',
@@ -49,6 +69,59 @@ const roles: Role[] = [
     color: 'from-red-500 to-orange-500',
     description: 'Neem initiatief en pak dingen aan zonder dat het gevraagd wordt',
     fullDescription: 'Als Aanpakker laat je zien initiatief te nemen in de studie, met medestudenten, op stage. Je wacht niet tot er expliciet om wordt gevraagd, maar ziet kansen en grijpt ze.',
+    flowchartSteps: [
+      {
+        id: 'step1',
+        title: 'Kansen herkennen',
+        description: 'Ik kan situaties identificeren waar initiatief nodig is',
+        completed: false,
+        requirements: ['Observatievermogen', 'Proactieve houding']
+      },
+      {
+        id: 'step2',
+        title: 'Initiatief nemen',
+        description: 'Ik durf de eerste stap te zetten zonder dat het gevraagd wordt',
+        completed: false,
+        requirements: ['Moed', 'Zelfvertrouwen', 'Actiebereidheid']
+      },
+      {
+        id: 'step3',
+        title: 'Anderen betrekken',
+        description: 'Ik kan anderen motiveren om mee te doen aan mijn initiatieven',
+        completed: false,
+        requirements: ['Communicatievaardigheden', 'Overtuigingskracht']
+      },
+      {
+        id: 'step4',
+        title: 'Doorpakken',
+        description: 'Ik volg mijn initiatieven consequent door tot het einde',
+        completed: false,
+        requirements: ['Doorzettingsvermogen', 'Planningsvaardigheden']
+      }
+    ],
+    concepts: [
+      {
+        id: 'c1',
+        term: 'Proactiviteit',
+        definition: 'Het anticiperen op toekomstige problemen en kansen en daar actie op ondernemen',
+        example: 'Een planning maken voordat er deadlines dreigen',
+        category: 'Houding'
+      },
+      {
+        id: 'c2',
+        term: 'Eigenaarschap',
+        definition: 'Verantwoordelijkheid nemen voor resultaten en processen',
+        example: 'Zelf oplossingen bedenken in plaats van wachten op instructies',
+        category: 'Verantwoordelijkheid'
+      },
+      {
+        id: 'c3',
+        term: 'Ondernemerschap',
+        definition: 'Het vermogen om kansen te zien en daar actie op te ondernemen',
+        example: 'Een nieuw project starten dat waarde toevoegt',
+        category: 'Mindset'
+      }
+    ],
     situations: [
       {
         id: 'groepsproject',
@@ -121,6 +194,59 @@ const roles: Role[] = [
     color: 'from-pink-500 to-purple-500',
     description: 'Verplaats je in anderen en begrijp verschillende perspectieven',
     fullDescription: 'Als Empathicus laat je zien je te verplaatsen in normen en waarden van een ander en kun je iets zinnigs zeggen over je eigen referentiekader en verschillen en overeenkomsten tussen jou en de ander.',
+    flowchartSteps: [
+      {
+        id: 'step1',
+        title: 'Actief luisteren',
+        description: 'Ik kan echt luisteren naar wat anderen zeggen en voelen',
+        completed: false,
+        requirements: ['Luistervaardigheden', 'Geduld', 'Aandacht']
+      },
+      {
+        id: 'step2',
+        title: 'Perspectief nemen',
+        description: 'Ik kan me verplaatsen in de situatie van een ander',
+        completed: false,
+        requirements: ['Voorstellingsvermogen', 'Openheid', 'Nieuwsgierigheid']
+      },
+      {
+        id: 'step3',
+        title: 'Eigen referentiekader kennen',
+        description: 'Ik ben me bewust van mijn eigen normen, waarden en vooroordelen',
+        completed: false,
+        requirements: ['Zelfkennis', 'Reflectievermogen', 'Eerlijkheid']
+      },
+      {
+        id: 'step4',
+        title: 'Verschillen waarderen',
+        description: 'Ik kan verschillen tussen mensen waarderen en benutten',
+        completed: false,
+        requirements: ['Tolerantie', 'Waardering voor diversiteit']
+      }
+    ],
+    concepts: [
+      {
+        id: 'c1',
+        term: 'Empathie',
+        definition: 'Het vermogen om je in te leven in de gevoelens en gedachten van een ander',
+        example: 'Begrijpen waarom een medestudent gestrest is over een deadline',
+        category: 'Emotionele intelligentie'
+      },
+      {
+        id: 'c2',
+        term: 'Referentiekader',
+        definition: 'Het geheel van ervaringen, waarden en overtuigingen waarmee je de wereld bekijkt',
+        example: 'Je culturele achtergrond beïnvloedt hoe je naar samenwerking kijkt',
+        category: 'Zelfkennis'
+      },
+      {
+        id: 'c3',
+        term: 'Perspectief nemen',
+        definition: 'Het bewust proberen te begrijpen hoe een situatie er uitziet vanuit iemands anders oogpunt',
+        example: 'Begrijpen waarom een docent streng is vanuit hun verantwoordelijkheid',
+        category: 'Cognitieve vaardigheid'
+      }
+    ],
     situations: [
       {
         id: 'culturele-verschillen',
@@ -193,6 +319,59 @@ const roles: Role[] = [
     color: 'from-blue-500 to-cyan-500',
     description: 'Werk effectief samen en ken je eigen rol in het team',
     fullDescription: 'Als Samenwerker kun je omschrijven hoe je bent in samenwerken, welke rol je inneemt, welk effect je hebt op andere mensen en waardoor je je door anderen laat beïnvloeden bij het samenwerken.',
+    flowchartSteps: [
+      {
+        id: 'step1',
+        title: 'Teamrollen herkennen',
+        description: 'Ik ken verschillende teamrollen en kan ze herkennen bij mezelf en anderen',
+        completed: false,
+        requirements: ['Kennis van teamrollen', 'Observatievermogen']
+      },
+      {
+        id: 'step2',
+        title: 'Eigen rol bepalen',
+        description: 'Ik weet welke rol ik van nature inneem in teams',
+        completed: false,
+        requirements: ['Zelfkennis', 'Reflectievermogen']
+      },
+      {
+        id: 'step3',
+        title: 'Effect op anderen',
+        description: 'Ik begrijp hoe mijn gedrag anderen beïnvloedt in teamverband',
+        completed: false,
+        requirements: ['Sociale bewustzijn', 'Feedback verwerken']
+      },
+      {
+        id: 'step4',
+        title: 'Flexibel samenwerken',
+        description: 'Ik kan mijn samenwerkingsstijl aanpassen aan de situatie en het team',
+        completed: false,
+        requirements: ['Flexibiliteit', 'Aanpassingsvermogen']
+      }
+    ],
+    concepts: [
+      {
+        id: 'c1',
+        term: 'Teamrollen (Belbin)',
+        definition: 'Negen verschillende rollen die mensen kunnen innemen in teams',
+        example: 'Voorzitter, Uitvoerder, Creatieve denker, etc.',
+        category: 'Teamdynamiek'
+      },
+      {
+        id: 'c2',
+        term: 'Groepsdynamiek',
+        definition: 'De processen en patronen die ontstaan wanneer mensen samenwerken',
+        example: 'Hoe beslissingen worden genomen in een groep',
+        category: 'Samenwerking'
+      },
+      {
+        id: 'c3',
+        term: 'Synergie',
+        definition: 'Het effect waarbij het geheel meer is dan de som der delen',
+        example: 'Een team dat betere resultaten behaalt dan individuen apart',
+        category: 'Teameffectiviteit'
+      }
+    ],
     situations: [
       {
         id: 'teamrollen',
@@ -265,6 +444,59 @@ const roles: Role[] = [
     color: 'from-purple-500 to-indigo-500',
     description: 'Ken jezelf en analyseer situaties met de STARR-methode',
     fullDescription: 'Als Ziener laat je zien je bewust te zijn van eigen kwaliteiten en valkuilen en kun je deze verbinden aan situaties en deze analyseren aan de hand van de STARR-methode.',
+    flowchartSteps: [
+      {
+        id: 'step1',
+        title: 'Zelfkennis ontwikkelen',
+        description: 'Ik ken mijn sterke punten, valkuilen en voorkeuren',
+        completed: false,
+        requirements: ['Zelfreflectie', 'Eerlijkheid', 'Feedback zoeken']
+      },
+      {
+        id: 'step2',
+        title: 'STARR-methode toepassen',
+        description: 'Ik kan situaties systematisch analyseren met de STARR-methode',
+        completed: false,
+        requirements: ['Analytisch denken', 'Structuur', 'Reflectievermogen']
+      },
+      {
+        id: 'step3',
+        title: 'Patronen herkennen',
+        description: 'Ik zie terugkerende patronen in mijn gedrag en reacties',
+        completed: false,
+        requirements: ['Observatievermogen', 'Patroonherkenning']
+      },
+      {
+        id: 'step4',
+        title: 'Ontwikkeling plannen',
+        description: 'Ik kan concrete plannen maken voor persoonlijke groei',
+        completed: false,
+        requirements: ['Doelgerichtheid', 'Planningsvaardigheden']
+      }
+    ],
+    concepts: [
+      {
+        id: 'c1',
+        term: 'STARR-methode',
+        definition: 'Situatie, Taak, Actie, Resultaat, Reflectie - methode voor situatieanalyse',
+        example: 'Systematisch een werkervaring beschrijven voor een sollicitatie',
+        category: 'Analysemethode'
+      },
+      {
+        id: 'c2',
+        term: 'Zelfkennis',
+        definition: 'Bewustzijn van eigen persoonlijkheid, vaardigheden en gedragspatronen',
+        example: 'Weten dat je goed bent in plannen maar moeite hebt met improviseren',
+        category: 'Persoonlijke ontwikkeling'
+      },
+      {
+        id: 'c3',
+        term: 'Reflectie',
+        definition: 'Het bewust nadenken over ervaringen om daarvan te leren',
+        example: 'Na een presentatie analyseren wat goed ging en wat beter kan',
+        category: 'Leerproces'
+      }
+    ],
     situations: [
       {
         id: 'zelfkennis',
@@ -329,32 +561,202 @@ const roles: Role[] = [
         ]
       }
     ]
+  },
+  {
+    id: 'toepasser',
+    name: 'Toepasser',
+    icon: '🧠',
+    color: 'from-green-500 to-teal-500',
+    description: 'Pas psychologische theorieën en vaardigheden toe in de praktijk',
+    fullDescription: 'Als Toepasser kun je psychologische theorieën toepassen op stage, door handelen, of analyseren. Ook kun je aangeleerde vaardigheden toepassen om gedrag te beïnvloeden.',
+    flowchartSteps: [
+      {
+        id: 'step1',
+        title: 'Theorieën begrijpen',
+        description: 'Ik begrijp relevante psychologische theorieën en modellen',
+        completed: false,
+        requirements: ['Theoretische kennis', 'Begrip van concepten']
+      },
+      {
+        id: 'step2',
+        title: 'Situaties analyseren',
+        description: 'Ik kan theorieën gebruiken om praktijksituaties te analyseren',
+        completed: false,
+        requirements: ['Analytisch denken', 'Theorie-praktijk verbinding']
+      },
+      {
+        id: 'step3',
+        title: 'Interventies plannen',
+        description: 'Ik kan op basis van theorie gerichte interventies bedenken',
+        completed: false,
+        requirements: ['Strategisch denken', 'Interventievaardigheden']
+      },
+      {
+        id: 'step4',
+        title: 'Gedrag beïnvloeden',
+        description: 'Ik kan aangeleerde vaardigheden effectief inzetten om gedrag te beïnvloeden',
+        completed: false,
+        requirements: ['Praktische toepassing', 'Effectiviteit meten']
+      }
+    ],
+    concepts: [
+      {
+        id: 'c1',
+        term: 'Gedragsverandering',
+        definition: 'Het proces waarbij iemand zijn gedrag aanpast door verschillende technieken',
+        example: 'Motivational interviewing gebruiken om iemand te helpen stoppen met roken',
+        category: 'Interventie'
+      },
+      {
+        id: 'c2',
+        term: 'Cognitieve dissonantie',
+        definition: 'Het ongemakkelijke gevoel dat ontstaat bij tegenstrijdige overtuigingen',
+        example: 'Iemand bewust maken van de tegenstrijdigheid tussen hun waarden en gedrag',
+        category: 'Psychologische theorie'
+      },
+      {
+        id: 'c3',
+        term: 'Sociale leertheorie',
+        definition: 'Mensen leren door observatie, imitatie en modeling van anderen',
+        example: 'Een positief rolmodel zijn om gewenst gedrag te stimuleren',
+        category: 'Leertheorie'
+      },
+      {
+        id: 'c4',
+        term: 'Motivational Interviewing',
+        definition: 'Gesprektechniek om intrinsieke motivatie voor verandering te versterken',
+        example: 'Open vragen stellen om iemands eigen argumenten voor verandering te ontlokken',
+        category: 'Gesprekstechniek'
+      },
+      {
+        id: 'c5',
+        term: 'Transtheoretisch model',
+        definition: 'Model dat verschillende stadia van gedragsverandering beschrijft',
+        example: 'Herkennen in welk stadium iemand zit (voorbeschouwing, beschouwing, actie, etc.)',
+        category: 'Veranderingsmodel'
+      }
+    ],
+    situations: [
+      {
+        id: 'stage-interventie',
+        title: 'Gedragsverandering op stage',
+        description: 'Je moet een interventie ontwikkelen voor een cliënt',
+        scenario: 'Tijdens je stage bij een zorginstelling krijg je een cliënt die moeite heeft met het naleven van afspraken. Je begeleider vraagt je om een plan te maken om dit gedrag te veranderen.',
+        questions: [
+          {
+            id: 'q1',
+            text: 'Welke theorie zou je als eerste toepassen?',
+            type: 'multiple-choice',
+            options: [
+              'Direct consequenties koppelen aan gedrag (behaviorisme)',
+              'Eerst begrijpen waarom de cliënt moeite heeft (motivational interviewing)',
+              'Een strak schema opleggen (structurele benadering)',
+              'De cliënt confronteren met de gevolgen (confrontatietherapie)'
+            ],
+            correctAnswer: 1,
+            explanation: 'Motivational interviewing helpt eerst de onderliggende motivatie en barrières te begrijpen.'
+          },
+          {
+            id: 'q2',
+            text: 'Beschrijf hoe je het transtheoretisch model zou toepassen in deze situatie.',
+            type: 'reflection'
+          }
+        ],
+        tips: [
+          'Begin altijd met een grondige analyse van de situatie',
+          'Kies theorieën die passen bij de cliënt en context',
+          'Meet de effectiviteit van je interventie'
+        ]
+      },
+      {
+        id: 'groepsgedrag',
+        title: 'Groepsdynamiek beïnvloeden',
+        description: 'Je wilt negatieve groepsdynamiek doorbreken',
+        scenario: 'In je projectgroep ontstaat een negatieve sfeer. Enkele leden zijn passief-agressief en er wordt veel geklaagd. Als toekomstig professional wil je deze dynamiek doorbreken.',
+        questions: [
+          {
+            id: 'q1',
+            text: 'Welke benadering kies je?',
+            type: 'multiple-choice',
+            options: [
+              'De groep confronteren met hun gedrag',
+              'Zelf positief gedrag modellen (sociale leertheorie)',
+              'Individuele gesprekken voeren met elk lid',
+              'De docent inschakelen om in te grijpen'
+            ],
+            correctAnswer: 1,
+            explanation: 'Sociale leertheorie toont dat mensen gedrag overnemen van positieve rolmodellen.'
+          },
+          {
+            id: 'q2',
+            text: 'Gebruik de STARR-methode om te beschrijven hoe je psychologische kennis hebt toegepast om een situatie te verbeteren.',
+            type: 'starr'
+          }
+        ],
+        tips: [
+          'Gebruik je kennis van groepsdynamiek',
+          'Wees een positief rolmodel',
+          'Pas verschillende technieken toe en evalueer het effect'
+        ]
+      }
+    ]
   }
 ]
 
+type ViewMode = 'overview' | 'situation' | 'flowchart' | 'flashcards'
+
 export default function RoleExplorer() {
   const [selectedRole, setSelectedRole] = useState<Role | null>(null)
+  const [viewMode, setViewMode] = useState<ViewMode>('overview')
   const [completedExamples, setCompletedExamples] = useState<CompletedExample[]>([])
 
   const handleRoleSelect = (role: Role) => {
     setSelectedRole(role)
+    setViewMode('situation')
   }
 
   const handleBackToRoles = () => {
     setSelectedRole(null)
+    setViewMode('overview')
   }
 
   const handleExampleCompleted = (example: CompletedExample) => {
     setCompletedExamples(prev => [...prev, example])
   }
 
-  if (selectedRole) {
+  const handleViewModeChange = (mode: ViewMode) => {
+    setViewMode(mode)
+  }
+
+  if (selectedRole && viewMode === 'situation') {
     return (
       <SituationExplorer
         role={selectedRole}
         onBack={handleBackToRoles}
         onExampleCompleted={handleExampleCompleted}
         completedExamples={completedExamples.filter(ex => ex.roleId === selectedRole.id)}
+        onViewModeChange={handleViewModeChange}
+      />
+    )
+  }
+
+  if (selectedRole && viewMode === 'flowchart') {
+    return (
+      <FlowchartView
+        role={selectedRole}
+        onBack={handleBackToRoles}
+        onViewModeChange={handleViewModeChange}
+        completedExamples={completedExamples.filter(ex => ex.roleId === selectedRole.id)}
+      />
+    )
+  }
+
+  if (selectedRole && viewMode === 'flashcards') {
+    return (
+      <FlashcardView
+        role={selectedRole}
+        onBack={handleBackToRoles}
+        onViewModeChange={handleViewModeChange}
       />
     )
   }
@@ -365,7 +767,7 @@ export default function RoleExplorer() {
       <ProgressTracker roles={roles} completedExamples={completedExamples} />
       
       {/* Role Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mt-8">
         {roles.map((role) => (
           <RoleCard
             key={role.id}
@@ -382,14 +784,14 @@ export default function RoleExplorer() {
         <h2 className="text-2xl font-bold text-gray-800 mb-4 text-center">
           Hoe gebruik je deze app?
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           <div className="text-center">
             <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
               <span className="text-2xl">1️⃣</span>
             </div>
             <h3 className="font-semibold text-gray-800 mb-2">Kies een rol</h3>
             <p className="text-gray-600 text-sm">
-              Klik op een van de vier professionele rollen om te beginnen
+              Klik op een van de vijf professionele rollen om te beginnen
             </p>
           </div>
           <div className="text-center">
@@ -405,9 +807,18 @@ export default function RoleExplorer() {
             <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-3">
               <span className="text-2xl">3️⃣</span>
             </div>
-            <h3 className="font-semibold text-gray-800 mb-2">Verzamel voorbeelden</h3>
+            <h3 className="font-semibold text-gray-800 mb-2">Bekijk stroomdiagram</h3>
             <p className="text-gray-600 text-sm">
-              Bouw een portfolio van situaties waarin je de rol beheerst
+              Zie je voortgang en wat je nog nodig hebt per rol
+            </p>
+          </div>
+          <div className="text-center">
+            <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-3">
+              <span className="text-2xl">4️⃣</span>
+            </div>
+            <h3 className="font-semibold text-gray-800 mb-2">Leer met flashcards</h3>
+            <p className="text-gray-600 text-sm">
+              Oefen belangrijke begrippen en toepassingen
             </p>
           </div>
         </div>

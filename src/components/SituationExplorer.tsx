@@ -10,13 +10,15 @@ interface SituationExplorerProps {
   onBack: () => void
   onExampleCompleted: (example: CompletedExample) => void
   completedExamples: CompletedExample[]
+  onViewModeChange: (mode: 'overview' | 'situation' | 'flowchart' | 'flashcards') => void
 }
 
 export default function SituationExplorer({ 
   role, 
   onBack, 
   onExampleCompleted, 
-  completedExamples 
+  completedExamples,
+  onViewModeChange
 }: SituationExplorerProps) {
   const [selectedSituation, setSelectedSituation] = useState<Situation | null>(null)
 
@@ -89,6 +91,28 @@ export default function SituationExplorer({
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Navigation Tabs */}
+      <div className="flex space-x-4 mb-8">
+        <button
+          onClick={() => onViewModeChange('situation')}
+          className="px-6 py-3 bg-white text-gray-800 rounded-lg shadow-md border-2 border-blue-500 font-medium"
+        >
+          📚 Situaties
+        </button>
+        <button
+          onClick={() => onViewModeChange('flowchart')}
+          className="px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg shadow-md border-2 border-transparent hover:border-gray-300 font-medium transition-colors"
+        >
+          📊 Stroomdiagram
+        </button>
+        <button
+          onClick={() => onViewModeChange('flashcards')}
+          className="px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg shadow-md border-2 border-transparent hover:border-gray-300 font-medium transition-colors"
+        >
+          🃏 Flashcards
+        </button>
       </div>
 
       {/* Situations Grid */}

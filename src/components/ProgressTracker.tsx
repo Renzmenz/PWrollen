@@ -51,8 +51,8 @@ export default function ProgressTracker({ roles, completedExamples }: ProgressTr
         </div>
       </div>
 
-      {/* Role Progress */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      {/* Role Progress - Updated for 5 roles */}
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
         {roles.map((role) => {
           const progress = getRoleProgress(role.id)
           const completed = completedExamples.filter(ex => ex.roleId === role.id).length
@@ -80,21 +80,27 @@ export default function ProgressTracker({ roles, completedExamples }: ProgressTr
         <div className="mt-8 pt-6 border-t border-gray-200">
           <h3 className="font-semibold text-gray-800 mb-4 text-center">Behaalde prestaties</h3>
           <div className="flex justify-center space-x-6">
-            {overallProgress >= 25 && (
+            {overallProgress >= 20 && (
               <div className="text-center">
                 <div className="text-2xl mb-1">🌱</div>
                 <span className="text-xs text-gray-600">Eerste stappen</span>
               </div>
             )}
-            {overallProgress >= 50 && (
+            {overallProgress >= 40 && (
               <div className="text-center">
                 <div className="text-2xl mb-1">🚀</div>
-                <span className="text-xs text-gray-600">Halverwege</span>
+                <span className="text-xs text-gray-600">Op weg</span>
               </div>
             )}
-            {overallProgress >= 75 && (
+            {overallProgress >= 60 && (
               <div className="text-center">
                 <div className="text-2xl mb-1">⭐</div>
+                <span className="text-xs text-gray-600">Goed bezig</span>
+              </div>
+            )}
+            {overallProgress >= 80 && (
+              <div className="text-center">
+                <div className="text-2xl mb-1">🌟</div>
                 <span className="text-xs text-gray-600">Bijna klaar</span>
               </div>
             )}
